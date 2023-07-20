@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
 
 import wordsPairs from '../../data/wordsBank';
-import { set } from "ol/transform";
 
 enum Role {
   White = 'W',
