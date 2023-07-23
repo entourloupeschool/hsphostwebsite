@@ -1,4 +1,4 @@
-'use client';
+  'use client';
 
 import { useState, useEffect } from "react";
 import { ChangeEvent } from 'react';
@@ -748,7 +748,7 @@ const handleEventsChange = (event: React.ChangeEvent<HTMLInputElement>, eventKey
   };
 
   return (
-    <main className="flex flex-col min-h-screen items-center justify-between p-4 sm:p-18 gap-y-8">
+    <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
       <div className="items-center mx-4 sm:mx-2 mb-3">
         <h1 className="text-2xl font-semibold">
           The Undercover
