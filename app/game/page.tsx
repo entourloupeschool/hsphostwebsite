@@ -749,12 +749,205 @@ const handleEventsChange = (event: React.ChangeEvent<HTMLInputElement>, eventKey
 
   return (
     <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
-      <div className="items-center mx-4 sm:mx-2 mb-3">
-        <h1 className="text-2xl font-semibold">
-          The Undercover
-        </h1>
+      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
+        <div className="group rounded-lg border border-transparent gap-y-4 px-5 py-4">
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Welcome to the Undercover Game!
+          </h2>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            Are you ready to test your detective skills? The aim of the game is to unmask the Undercovers hiding among the Citizens.
+          </p>
+          <h5 className={`mb-3 text-lg font-semibold`}>
+            How to Play
+          </h5>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            At the start of the game, each player is assigned a role: Citizen or Undercover. Citizens all receive the same word, while Undercovers receive a similar, but not identical, word.
+
+            In each round, players give a word or phrase as a clue related to their assigned word. After every round, the group must decide: do you want to guess who the Undercovers are and reveal a player&#39;s identity, or do you want to continue to the next round without revealing anyone&#39;s identity?
+
+            For an added twist, you can choose to include the role of Mr. White, who doesn&#39;t receive a word at all!
+          </p>
+          <h5 className={`mb-3 text-lg font-semibold`}>
+            Why We Coded This Game
+          </h5>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            We love playing the Undercover Game with our friends, but we didn&#39;t want to pay for additional words on the official app. So, we decided to create our own version, where we can add as many words as we like.
+
+            But that&#39;s not the only reason we built this game. We also wanted to challenge ourselves and improve our web development skills. This game is a result of our journey in learning and mastering React and Next.js, two powerful tools for building dynamic web applications.
+
+            By creating this game, we not only had a lot of fun but also gained valuable experience in coding websites. Now, we&#39;re sharing it with you. Enjoy the game, and may the best detective win!
+          </p>
+        </div>
+        <div id='setup' className={ isPlaying ? 'fade-out' : 'fade group rounded-lg border border-transparent gap-y-4 px-5 py-4'}> 
+          <div className="place-items-center mx-4 sm:mx-2">
+            <div className="flex flex-col place-items-center mx-4 sm:mx-2 gap-y-2">
+              <h3 className={`my-3 text-lg opacity-50`}>
+                Whos playing ?
+              </h3>
+              <div className={horizontalSizeClasses}>
+                <label htmlFor='add-player' className="invisible">
+                  i
+                </label>
+                <input
+                  value={playerInput}
+                  onChange={handlePlayerInput}
+                  placeholder="Enter player's name"
+                  className={inputClasses}
+                  type="text"
+                  id='add-player'
+                />
+                <button onClick={handleAddPlayer} className="border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold py-2 px-2 rounded"
+                  type="button">
+                  +
+                </button>
+              </div>
+              <ul role="list" className="divide-y divide-gray-300">
+                {players.map((player, index) => (
+                  <li key={index} className="py-2">
+                    <div className={horizontalSizeClasses}>
+                      <label htmlFor={`player-${index}`} className="invisible">
+                        i
+                      </label>
+                      <input
+                        value={player.name}
+                        onChange={(e) => handleEditPlayer(index, e.target.value)}
+                        className={inputClasses}
+                        type="text"
+                        id={`player-${index}`}
+                      />
+                      <button onClick={() => handleRemovePlayer(player.name)}
+                        className="border-2 border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 font-xs font-bold py-2 px-2 rounded"
+                        type="button">
+                        x
+                      </button>  
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col place-items-center mx-4 sm:mx-2 gap-y-2">
+              <div className="flex flex-col place-items-center mx-4 sm:mx-2 gap-y-2">
+                <h3 className={`my-3 text-lg opacity-50`}>
+                  Role settings
+                </h3>
+                {Object.entries(settings).map(([field, setting]) => (
+                  <div key={field} className={horizontalSizeClasses}>
+                    <label htmlFor={field}>
+                      {setting.description}
+                    </label>
+                    {typeof setting.value === 'boolean' ? 
+                        <input 
+                            id={field}
+                            type="checkbox" 
+                            checked={setting.value} 
+                            onChange={(event) => handleSettingsChange(event, field as keyof Settings)}
+                            className={inputClasses}
+                        />
+                        :
+                        <input
+                            id={field}
+                            type="number" 
+                            value={setting.value} 
+                            onChange={(event) => handleSettingsChange(event, field as keyof Settings)}
+                            className={inputClasses}
+                            min={0}
+                        />
+                      }
+                  </div>
+                ))}
+              </div>
+              <div className={isPtsSettings ? 'fade flex flex-col place-items-center mx-4 sm:mx-2 gap-y-4' : 'fade-out'}>
+                <h3 className={`my-3 text-lg opacity-50`}>  
+                  Points settings
+                </h3>
+                {Object.entries(events).map(([key, event]) => (
+                  <div key={key} className={horizontalEventSizeClasses}>
+                    <h6>{event.description}</h6>
+                    {event.distrib.map((dist, index) => {
+                      const id = `${key}-${index}`; // Create a unique id for each input
+                      return (
+                        <div key={index} className={horizontalSizeClasses}>
+                          <label htmlFor={id}>To: {roleNames[dist.to]}, with condition: {dist.conditionString}</label>
+                          <input
+                            id={id}
+                            type="number" 
+                            value={dist.value}
+                            onChange={(event) => handleEventsChange(event, key as keyof Events, index)}
+                            className={inputClasses}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id='game' className={isPlaying ? 'fade group rounded-lg border border-transparent gap-y-4 px-5 py-4' : 'fade-out'}>
+          <div className="flex flex-col place-items-center mx-4 sm:mx-2">
+            <h3 className={`my-3 text-lg opacity-50`}>
+              Game #{game.gameN} |
+              Round #{game.roundN}
+            </h3>
+            <ul role="list" className="divide-y divide-gray-300">            
+              {players.map((player, index) => (
+                <li key={index} className="py-2">
+                  <div className="flex justify-between items-center mx-4 sm:mx-2 gap-x-2">
+                    {
+                      !game.elimP ?
+                        <span className="text-lg font-semibold">
+                          {player.points}
+                        </span> 
+                      : ''
+                    }
+                    <span className="text-lg font-semibold">
+                      {player.name}
+                    </span>
+                    <button onClick={() => handleShowWord(player)} className={ game.elimP ? 'fade-out' : "fade text-xs border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold py-1 px-1 rounded"}
+                      type="button">
+                      {player.seen ? 'show again' : 'show word'}
+                    </button>
+                    <button onClick={() => handleElimination(player)} className={ game.elimP && player.alive ? "fade text-xs border-2 border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 font-bold py-1 px-1 rounded" : 'fade-out'}
+                      type="button">
+                      x
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className={ isPlaying ? "fade group rounded-lg border border-transparent gap-y-4 px-5 py-4" : "fade-out"}>
+          <button onClick={handleWhoStarts} className={ game.elimP ? "fade-out" : "fade border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold my-2 py-2 px-2 rounded"}
+            type="button">
+            {game.elimP ? '' : 'Who shall start ?'}
+          </button>
+        </div>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-x-2">
+          <button onClick={handlePlay} className="border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold my-2 py-2 px-2 rounded"
+            type="button">
+            {isPlaying ? 'Setup' : 'Play'}
+          </button>
+          <button onClick={handleAttribution} className={ isPlaying ? "fade border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold my-2 py-2 px-2 rounded" : 'fade-out'}
+            type="button">
+            {isPlaying ? 'Shuffle' : ''}
+          </button>
+          <button onClick={handlePtsSettings} className={ isPlaying ? 'fade-out' : "fade border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold my-2 py-2 px-2 rounded"}
+            type="button">
+            {isPtsSettings ? 'Close points settings' : 'Points settings'}
+          </button>
+          <button onClick={handleReset} className={ isPlaying ? 'fade-out' : 'fade border-2 border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 font-bold my-2 py-2 px-2 rounded'}
+            type="button">
+            Reset
+          </button>
+          <button onClick={handlePtsReset} className={ isPlaying ? 'fade-out' : 'fade border-2 border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 font-bold my-2 py-2 px-2 rounded'}
+            type="button">
+            Points Reset
+          </button>
+        </div>  
       </div>
-      <div id='setup' className={ isPlaying ? 'fade-out' : 'fade'}> 
+      {/* <div id='setup' className={ isPlaying ? 'fade-out' : 'fade'}> 
         <div className="place-items-center mx-4 sm:mx-2">
           <div className="flex flex-col place-items-center mx-4 sm:mx-2 gap-y-2">
             <h3 className={`my-3 text-lg opacity-50`}>
@@ -859,8 +1052,8 @@ const handleEventsChange = (event: React.ChangeEvent<HTMLInputElement>, eventKey
             </div>
           </div>
         </div>
-      </div>
-      <div id='game' className={isPlaying ? 'fade' : 'fade-out'}>
+      </div> */}
+      {/* <div id='game' className={isPlaying ? 'fade' : 'fade-out'}>
         <div className="flex flex-col place-items-center mx-4 sm:mx-2">
           <h3 className={`my-3 text-lg opacity-50`}>
             Game #{game.gameN} |
@@ -893,8 +1086,8 @@ const handleEventsChange = (event: React.ChangeEvent<HTMLInputElement>, eventKey
             ))}
           </ul>
         </div>
-      </div>
-      <div className="flex flex-col justify-between items-center mx-4 sm:mx-2 gap-y-2">
+      </div> */}
+      {/* <div className="flex flex-col justify-between items-center mx-4 sm:mx-2 gap-y-2">
         <div className={ isPlaying ? "fade" : "fade-out"}>
           <button onClick={handleWhoStarts} className={ game.elimP ? "fade-out" : "fade border-2 border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 font-bold my-2 py-2 px-2 rounded"}
             type="button">
@@ -923,7 +1116,7 @@ const handleEventsChange = (event: React.ChangeEvent<HTMLInputElement>, eventKey
             Points Reset
           </button>
         </div>  
-      </div>
+      </div> */}
       <Modal
         isOpen={isModalOpen.open}
         onRequestClose={() => openCloseModal()}
