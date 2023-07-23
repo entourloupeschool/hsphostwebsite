@@ -143,24 +143,27 @@ export default function Art() {
                     The Art of Elliptical Orbits
                 </h1>
                 <p className="text-lg text-gray-600 mt-2">
-                    Welcome to our interactive p5.js canvas! Here, we are simulating the mesmerizing dance of celestial bodies as they move in elliptical orbits. The main dot represents a celestial body, and its path forms an elliptical orbit. The smaller dots that occasionally appear represent other bodies influenced by the main body's gravitational pull.
+                    Welcome to our interactive p5.js canvas! Here, we&#39;re simulating the mesmerizing dance of celestial bodies as they move in elliptical orbits. The main dot represents a celestial body, and its path forms an elliptical orbit. The smaller dots that occasionally appear represent other bodies influenced by the main body&#39;s gravitational pull.
                 </p>
                 <p className="text-lg text-gray-600 mt-2">
                     This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
                 </p>
-            </div>
+            </div>  
             <div>
+                <Sketch setup={setup} draw={draw} />
+            </div>
+            <div className="flex flex-col items-center justify-center">
                 <div className={horizontalSizeClasses}>
-                    <label>
-                        Size of the main dot:
-                        <input type="number" min="0" max="80" value={size} onChange={(e) => setSize(Number(e.target.value))} />
+                    <label htmlFor="setSize">
+                        Size of the main dot:      
                     </label>
+                    <input id="setSize" type="number" min="0" max="80" value={size} onChange={(e) => setSize(Number(e.target.value))} className={inputClasses}/>
                 </div>
                 <div className={horizontalEventSizeClasses}>
-                    <label>
+                    <label htmlFor="setFreqPop">
                         Frequency of dots popping up:
-                        <input type="number" min="0" max="1" step="0.01" value={freqPop} onChange={(e) => setFreqPop(Number(e.target.value))} className={inputClasses}/>
                     </label>
+                    <input id="setFreqPop" type="number" min="0" max="1" step="0.01" value={freqPop} onChange={(e) => setFreqPop(Number(e.target.value))} className={inputClasses}/>
                 </div>
                 <div className={horizontalEventSizeClasses}>
                     <label>
@@ -169,29 +172,25 @@ export default function Art() {
                     </label>
                 </div>
                 <div className={horizontalEventSizeClasses}>
-                    <label>
+                    <label htmlFor='setCanvasRotationSpeed'>
                         Speed of the rotation of the canvas:
-                        <input type="number" min="0" max="0.5" step="0.001" value={canvasRotationSpeed} onChange={(e) => setCanvasRotationSpeed(Number(e.target.value))} className={inputClasses}/>
                     </label>
+                    <input id="setCanvasRotationSpeed" type="number" min="0" max="0.5" step="0.001" value={canvasRotationSpeed} onChange={(e) => setCanvasRotationSpeed(Number(e.target.value))} className={inputClasses}/>
                 </div>
                 <div className={horizontalSizeClasses}>
-                    <label>
+                    <label htmlFor="setChildDotsExpectency">
                         Life expectency of the child dots:
-                        <input type="number" min="0" max="1000" step="10" value={childDotsLifeExpectency} onChange={(e) => setChildDotsLifeExpectency(Number(e.target.value))} className={inputClasses}/>
+                        
                     </label>
+                    <input id="setChildDotsExpectency" type="number" min="0" max="1000" step="10" value={childDotsLifeExpectency} onChange={(e) => setChildDotsLifeExpectency(Number(e.target.value))} className={inputClasses}/>
                 </div>
-
                 <div className={horizontalSizeClasses}>
-                    <label>
+                    <label htmlFor="setExplode">
                         Explode factor:
-                        <input type="number" min="0" max="10" step="0.1" value={explode} onChange={(e) => setExplode(Number(e.target.value))} className={inputClasses}/>
                     </label>
+                    <input id="setExplode" type="number" min="0" max="10" step="0.1" value={explode} onChange={(e) => setExplode(Number(e.target.value))} className={inputClasses}/>
                 </div>
-
-            </div>    
-            <div>
-                <Sketch setup={setup} draw={draw} />
-            </div>    
+            </div>  
         </main>
     )
 };
