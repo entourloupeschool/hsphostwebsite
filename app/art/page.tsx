@@ -6,7 +6,6 @@ import { ChangeEvent } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal';
 
 import p5Types, { Vector } from "p5"; //Import this for typechecking and intellisense
 
@@ -15,6 +14,10 @@ interface ComponentProps {
 }
 
 import dynamic from 'next/dynamic'
+
+const horizontalSizeClasses = "flex justify-between items-center gap-x-2 mx-4 sm:mx-2";
+const horizontalEventSizeClasses = "flex flex-col justify-between items-center gap-2  mx-4 sm:mx-2";
+const inputClasses = "w-48 pl-2 border-2 border-blue-500 focus:border-blue-700 focus:outline-none text-blue-500 hover:border-blue-700 font-bold py-2 rounded";
 
 // Will only import `react-p5` on client-side
 const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
@@ -137,34 +140,54 @@ export default function Art() {
         <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
             <div className="items-center mx-4 sm:mx-2 mb-3">
                 <h1 className="text-2xl font-semibold">
-                    The Art
+                    The Art of Elliptical Orbits
                 </h1>
+                <p className="text-lg text-gray-600 mt-2">
+                    Welcome to our interactive p5.js canvas! Here, we are simulating the mesmerizing dance of celestial bodies as they move in elliptical orbits. The main dot represents a celestial body, and its path forms an elliptical orbit. The smaller dots that occasionally appear represent other bodies influenced by the main body's gravitational pull.
+                </p>
+                <p className="text-lg text-gray-600 mt-2">
+                    This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
+                </p>
             </div>
             <div>
-                <label>
-                    Size of the main dot:
-                    <input type="number" min="0" max="80" value={size} onChange={(e) => setSize(Number(e.target.value))} />
-                </label>
-                <label>
-                    Frequency of dots popping up:
-                    <input type="number" min="0" max="1" step="0.01" value={freqPop} onChange={(e) => setFreqPop(Number(e.target.value))} />
-                </label>
-                <label>
-                    Speed of the main dot:
-                    <input type="number" min="0" max="1" step="0.01" value={dotSpeed} onChange={(e) => setDotSpeed(Number(e.target.value))} />
-                </label>
-                <label>
-                    Speed of the rotation of the canvas:
-                    <input type="number" min="0" max="0.5" step="0.001" value={canvasRotationSpeed} onChange={(e) => setCanvasRotationSpeed(Number(e.target.value))} />
-                </label>
-                <label>
-                    Life expectency of the child dots:
-                    <input type="number" min="0" max="1000" step="10" value={childDotsLifeExpectency} onChange={(e) => setChildDotsLifeExpectency(Number(e.target.value))} />
-                </label>
-                <label>
-                    Explode factor:
-                    <input type="number" min="0" max="10" step="0.1" value={explode} onChange={(e) => setExplode(Number(e.target.value))} />
-                </label>
+                <div className={horizontalSizeClasses}>
+                    <label>
+                        Size of the main dot:
+                        <input type="number" min="0" max="80" value={size} onChange={(e) => setSize(Number(e.target.value))} />
+                    </label>
+                </div>
+                <div className={horizontalEventSizeClasses}>
+                    <label>
+                        Frequency of dots popping up:
+                        <input type="number" min="0" max="1" step="0.01" value={freqPop} onChange={(e) => setFreqPop(Number(e.target.value))} className={inputClasses}/>
+                    </label>
+                </div>
+                <div className={horizontalEventSizeClasses}>
+                    <label>
+                        Speed of the main dot:
+                        <input type="number" min="0" max="1" step="0.01" value={dotSpeed} onChange={(e) => setDotSpeed(Number(e.target.value))} className={inputClasses}/>
+                    </label>
+                </div>
+                <div className={horizontalEventSizeClasses}>
+                    <label>
+                        Speed of the rotation of the canvas:
+                        <input type="number" min="0" max="0.5" step="0.001" value={canvasRotationSpeed} onChange={(e) => setCanvasRotationSpeed(Number(e.target.value))} className={inputClasses}/>
+                    </label>
+                </div>
+                <div className={horizontalSizeClasses}>
+                    <label>
+                        Life expectency of the child dots:
+                        <input type="number" min="0" max="1000" step="10" value={childDotsLifeExpectency} onChange={(e) => setChildDotsLifeExpectency(Number(e.target.value))} className={inputClasses}/>
+                    </label>
+                </div>
+
+                <div className={horizontalSizeClasses}>
+                    <label>
+                        Explode factor:
+                        <input type="number" min="0" max="10" step="0.1" value={explode} onChange={(e) => setExplode(Number(e.target.value))} className={inputClasses}/>
+                    </label>
+                </div>
+
             </div>    
             <div>
                 <Sketch setup={setup} draw={draw} />
