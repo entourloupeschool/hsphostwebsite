@@ -15,7 +15,7 @@ interface ComponentProps {
 
 import dynamic from 'next/dynamic'
 
-const horizontalSizeClasses = "flex justify-between items-center gap-x-2 mx-4 sm:mx-2";
+const horizontalSizeClasses = "flex flex-col sm:flex-row justify-between items-center gap-x-2 mx-4 sm:mx-2";
 const horizontalEventSizeClasses = "flex flex-col justify-between items-center gap-2  mx-4 sm:mx-2";
 const inputClasses = "w-48 pl-2 border-2 border-blue-500 focus:border-blue-700 focus:outline-none text-blue-500 hover:border-blue-700 font-bold py-2 rounded";
 
@@ -79,7 +79,11 @@ export default function Art() {
     const dotsRef = useRef<Dot[]>([]);
 
     const setup = (p5: p5Types, canvasParentRef: Element) => {
-        p5.createCanvas(500, 500).parent(canvasParentRef);
+        const ratioWidthHeight: number = 640 / 480;
+        const width: number = window.innerWidth > 325 ? 640 : 280;
+        const height: number = width / ratioWidthHeight;
+
+        p5.createCanvas(width, height).parent(canvasParentRef);
         p5Ref.current = p5;
     };
 
@@ -138,7 +142,7 @@ export default function Art() {
 
     return (
         <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
-            <div className="items-center mx-4 sm:mx-2 mb-3">
+            <div className="flex flex-col items-center mx-4 sm:mx-2 mb-3">
                 <h1 className="text-2xl font-semibold">
                     The Art of Elliptical Orbits
                 </h1>
@@ -148,11 +152,11 @@ export default function Art() {
                 <p className="text-lg text-gray-600 mt-2">
                     This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
                 </p>
-            </div>  
-            <div>
-                <Sketch setup={setup} draw={draw} />
             </div>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center mx-4 sm:mx-2 mb-3">
+                <Sketch setup={setup} draw={draw}/>
+            </div>
+            <div className="flex flex-col items-center justify-center mx-4 sm:mx-2 mb-3">
                 <div className={horizontalSizeClasses}>
                     <label htmlFor="setSize">
                         Size of the main dot:      
@@ -166,10 +170,10 @@ export default function Art() {
                     <input id="setFreqPop" type="number" min="0" max="1" step="0.01" value={freqPop} onChange={(e) => setFreqPop(Number(e.target.value))} className={inputClasses}/>
                 </div>
                 <div className={horizontalEventSizeClasses}>
-                    <label>
+                    <label htmlFor="setDotSpeed">
                         Speed of the main dot:
-                        <input type="number" min="0" max="1" step="0.01" value={dotSpeed} onChange={(e) => setDotSpeed(Number(e.target.value))} className={inputClasses}/>
                     </label>
+                    <input id="setDotSpeed" type="number" min="0" max="1" step="0.01" value={dotSpeed} onChange={(e) => setDotSpeed(Number(e.target.value))} className={inputClasses}/>
                 </div>
                 <div className={horizontalEventSizeClasses}>
                     <label htmlFor='setCanvasRotationSpeed'>
@@ -180,7 +184,6 @@ export default function Art() {
                 <div className={horizontalSizeClasses}>
                     <label htmlFor="setChildDotsExpectency">
                         Life expectency of the child dots:
-                        
                     </label>
                     <input id="setChildDotsExpectency" type="number" min="0" max="1000" step="10" value={childDotsLifeExpectency} onChange={(e) => setChildDotsLifeExpectency(Number(e.target.value))} className={inputClasses}/>
                 </div>
