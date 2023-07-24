@@ -171,7 +171,7 @@ const roleNames: Record<Role, string> = {
   U: 'undercover'
 };
 
-export default function Game() {
+export default function TheUndercover() {
   const [playerInput, setPlayerInput] = useState("");
   const [players, setPlayers] = useState<PlayerState[]>([]);
   const [settings, setSettings] = useState<Settings>(initSettings); // Initialize your settings state

@@ -116,6 +116,7 @@ export default function EllipticalOrbitArt() {
         const height: number = width / ratioWidthHeight;
 
         p5.createCanvas(width, height).parent(canvasParentRef);
+        p5.frameRate(60);
         p5Ref.current = p5;
     };
 
@@ -172,9 +173,14 @@ export default function EllipticalOrbitArt() {
         };
     };
 
-    const mouseMoved = (e: any) => {
+    const windowResized = (p5: p5Types) => {
+        p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    };
+
+    const inputsDisplay = (e: any) => {
         console.log('mouse moved')
         // get the last timeout if there is one
+        const consumeTime = 2500;
 
         if (mouseMovedState) {
             // clear the last timeout if there is one
@@ -183,13 +189,13 @@ export default function EllipticalOrbitArt() {
             }
             const id = setTimeout(() => {
                 setMouseMovedState(false)
-            }, 2500)
+            }, consumeTime)
             setTimeoutId(id);
         } else {
             setMouseMovedState(true)
             const id = setTimeout(() => {
                 setMouseMovedState(false)
-            }, 2500)
+            }, consumeTime)
             setTimeoutId(id);
         }
     };
@@ -208,7 +214,14 @@ export default function EllipticalOrbitArt() {
                         This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
                     </p>
                 </div>
-                <Sketch setup={setup} draw={draw} mousePressed={(e) => {mouseMoved(e)}} mouseMoved={(e) => {mouseMoved(e)}} keyPressed={(e) => {mouseMoved(e)}} className="group rounded-lg border border-transparent px-5 py-4"/>
+                <div className="group rounded-lg border border-transparent px-5">
+                    <Sketch setup={setup} 
+                        draw={draw} 
+                        mousePressed={(e) => {inputsDisplay(e)}} 
+                        mouseMoved={(e) => {inputsDisplay(e)}} 
+                        keyPressed={(e) => {inputsDisplay(e)}}
+                        windowResized={windowResized}/>
+                </div>
             </div>
             <div className={`flex flex-col rounded-lg border border-transparent px-5 py-4 ${mouseMovedState ? 'fade' : 'fade-out'}`}>
                 <div className={horizontalSizeClasses}>
