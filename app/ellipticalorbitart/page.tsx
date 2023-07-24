@@ -128,19 +128,9 @@ export default function EllipticalOrbitArt() {
     const draw = () => {
         if (p5Ref.current !== null) {
             const p5 = p5Ref.current;
-
-            let bgColor = 220;
-            if (typeof window !== 'undefined') {
-                // Your code that uses 'window' here
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    // dark mode
-                    bgColor = 0;
-                };
-              }
-
-            
+           
             // Set the background color of the canvas
-            p5.background(bgColor);
+            p5.background(0);
             p5.translate(p5.width / 2, p5.height / 2); // move origin to center
             p5.rotate(canvasAngleRef.current); // rotate the canvas
 
