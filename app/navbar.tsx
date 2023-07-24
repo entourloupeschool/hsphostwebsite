@@ -23,6 +23,13 @@ const pages = [
         metaTitle: 'create art',
         metaDescription: 'elliptical art on the hsp website',
     },
+    {
+        name: "use your own",
+        link: "/ellipticalorbitartinput",
+        description: 'elliptical orbit art with your image page',
+        metaTitle: 'create art',
+        metaDescription: 'elliptical art on the hsp website',
+    },
 ];
 
 const CustomNavbar: React.FC = () => {
