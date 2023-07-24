@@ -53,3 +53,12 @@ body {
   overflow: hidden;
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, height 0.5s ease-in-out, width 0.5s ease-in-out;
 }
+
+.background-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+}
