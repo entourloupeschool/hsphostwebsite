@@ -223,21 +223,14 @@ export default function EllipticalOrbitArt() {
                         This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
                     </p>
                 </div>
-                {isEffectComplete && (
-                    // if window is not defined, it means we are on the server-side
-                    // and we can't render the canvas
-                    typeof window !== 'undefined' && (
-                        <div id="canvas-container" className="group rounded-lg border border-transparent px-5">
-                            <Sketch setup={setup} 
-                                draw={draw} 
-                                mousePressed={(e) => {inputsDisplay(e)}} 
-                                mouseMoved={(e) => {inputsDisplay(e)}} 
-                                keyPressed={(e) => {inputsDisplay(e)}}
-                                windowResized={windowResized}/>
-                        </div>
-                    )
-
-                )}
+                <div id="canvas-container" className="group rounded-lg border border-transparent px-5">
+                    <Sketch setup={setup} 
+                        draw={draw} 
+                        mousePressed={(e) => {inputsDisplay(e)}} 
+                        mouseMoved={(e) => {inputsDisplay(e)}} 
+                        keyPressed={(e) => {inputsDisplay(e)}}
+                        windowResized={windowResized}/>
+                </div>
             </div>
             <div className={`flex flex-col rounded-lg border border-transparent px-5 py-4 ${mouseMovedState ? 'fade' : 'fade-out'}`}>
                 <div className={horizontalSizeClasses}>
