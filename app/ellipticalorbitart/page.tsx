@@ -105,13 +105,6 @@ export default function EllipticalOrbitArt() {
     const [mouseMovedState, setMouseMovedState] = useState(false); // mouse moved
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-    const [width, setWidth] = useState(1020); // default width value
-
-    useEffect(() => {
-        setWidth(window.innerWidth > 325 ? 1020 : 280);
-
-    }, []);
-
     const p5Ref = useRef<p5Types | null>(null);
     const canvasAngleRef = useRef<number>(0);
     const initPosRef = useRef<number>(0);
@@ -119,6 +112,7 @@ export default function EllipticalOrbitArt() {
 
     const setup = (p5: p5Types, canvasParentRef: Element) => {
         const ratioWidthHeight: number = 640 / 480;
+        const width: number = p5.windowWidth * 0.8;
         const height: number = width / ratioWidthHeight;
 
         p5.createCanvas(width, height).parent(canvasParentRef);
