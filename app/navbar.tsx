@@ -17,11 +17,11 @@ const pages = [
         metaDescription: 'the undercover on the hsp website',
     },
     {
-        name: "Art",
-        link: "/art",
-        description: 'art page',
+        name: "Elliptical Orbit Art",
+        link: "/ellipticalorbitart",
+        description: 'elliptical orbit art page',
         metaTitle: 'create art',
-        metaDescription: 'art on the hsp website',
+        metaDescription: 'elliptical art on the hsp website',
     },
 ];
 

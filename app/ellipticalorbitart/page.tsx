@@ -95,7 +95,7 @@ class ChildDot extends Dot {
     };
 };
 
-export default function Art() {
+export default function EllipticalOrbitArt() {
     const [size, setSize] = useState(50); // size of the dot
     const [dotSpeed, setDotSpeed] = useState(0.08); // speed of the dot
     const [canvasRotationSpeed, setCanvasRotationSpeed] = useState(0.006); // speed of rotation
@@ -105,6 +105,13 @@ export default function Art() {
     const [mouseMovedState, setMouseMovedState] = useState(false); // mouse moved
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
+    const [width, setWidth] = useState(1020); // default width value
+
+    useEffect(() => {
+        setWidth(window.innerWidth > 325 ? 1020 : 280);
+
+    }, []);
+
     const p5Ref = useRef<p5Types | null>(null);
     const canvasAngleRef = useRef<number>(0);
     const initPosRef = useRef<number>(0);
@@ -112,7 +119,6 @@ export default function Art() {
 
     const setup = (p5: p5Types, canvasParentRef: Element) => {
         const ratioWidthHeight: number = 640 / 480;
-        const width: number = window.innerWidth > 325 ? 1020 : 280;
         const height: number = width / ratioWidthHeight;
 
         p5.createCanvas(width, height).parent(canvasParentRef);
@@ -123,14 +129,15 @@ export default function Art() {
         if (p5Ref.current !== null) {
             const p5 = p5Ref.current;
 
-            let bgColor;
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                // dark mode
-                bgColor = 0;
-            } else {
-                // light mode
-                bgColor = 220;
-            }
+            let bgColor = 220;
+            if (typeof window !== 'undefined') {
+                // Your code that uses 'window' here
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    // dark mode
+                    bgColor = 0;
+                };
+              }
+
             
             // Set the background color of the canvas
             p5.background(bgColor);
