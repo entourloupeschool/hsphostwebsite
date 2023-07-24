@@ -226,10 +226,11 @@ export default function EllipticalOrbitArt() {
                 <div id="canvas-container" className="group rounded-lg border border-transparent px-5">
                     <Sketch setup={setup} 
                         draw={draw} 
-                        mousePressed={(e) => {inputsDisplay(e)}} 
-                        mouseMoved={(e) => {inputsDisplay(e)}} 
-                        keyPressed={(e) => {inputsDisplay(e)}}
-                        windowResized={windowResized}/>
+                        // mousePressed={(e) => {inputsDisplay(e)}} 
+                        // mouseMoved={(e) => {inputsDisplay(e)}} 
+                        // keyPressed={(e) => {inputsDisplay(e)}}
+                        // windowResized={windowResized}
+                    />
                 </div>
             </div>
             <div className={`flex flex-col rounded-lg border border-transparent px-5 py-4 ${mouseMovedState ? 'fade' : 'fade-out'}`}>
