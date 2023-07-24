@@ -1,14 +1,10 @@
 'use client';
 
 import React from "react";
-import { useState, useRef } from "react";
-import { ChangeEvent } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import p5Types, { Vector } from "p5"; //Import this for typechecking and intellisense
-// import Sketch from "react-p5";
 import Iframe from 'react-iframe';
 
 const horizontalSizeClasses = "flex flex-col sm:flex-row justify-between items-center gap-x-2 mx-4 sm:mx-2";
