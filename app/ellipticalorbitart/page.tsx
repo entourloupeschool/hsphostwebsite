@@ -114,7 +114,7 @@ export default function EllipticalOrbitArt() {
     const dotsRef = useRef<ChildDot[]>([]);
 
     const setup = (p5: p5Types, canvasParentRef: Element) => {
-        const ratioWidthHeight: number = 640 / 480;
+        const ratioWidthHeight: number = 4 / 3;
         const width: number = window.innerWidth * 0.8;
         const height: number = width / ratioWidthHeight;
 
