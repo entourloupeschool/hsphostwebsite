@@ -106,8 +106,6 @@ export default function EllipticalOrbitArt() {
     const [mouseMovedState, setMouseMovedState] = useState(false); // mouse moved
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-    const [isEffectComplete, setIsEffectComplete] = useState(false);
-
     const p5Ref = useRef<p5Types | null>(null);
     const canvasAngleRef = useRef<number>(0);
     const initPosRef = useRef<number>(0);
@@ -204,11 +202,6 @@ export default function EllipticalOrbitArt() {
         };
     };
     
-    useEffect(() => {
-        // After the effect logic has run, set the state variable to true
-        setIsEffectComplete(true);
-    }, []); // Empty dependency array to run the effect only once after the initial render
-
     return (
         <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
             <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
