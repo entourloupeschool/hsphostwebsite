@@ -9,17 +9,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import p5Types, { Vector } from "p5"; //Import this for typechecking and intellisense
 import p5 from "p5"; //Import this for p5 global functions
+// import Sketch from "react-p5";
 
 import dynamic from 'next/dynamic'
-
-const horizontalSizeClasses = "flex flex-col sm:flex-row justify-between items-center gap-x-2 mx-4 sm:mx-2";
-const horizontalEventSizeClasses = "flex flex-col justify-between items-center gap-2  mx-4 sm:mx-2";
-const inputClasses = "w-48 pl-2 border-2 border-blue-500 focus:border-blue-700 focus:outline-none text-blue-500 hover:border-blue-700 font-bold py-2 rounded";
 
 // // Will only import `react-p5` on client-side
 const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
   ssr: false,
 });
+
+const horizontalSizeClasses = "flex flex-col sm:flex-row justify-between items-center gap-x-2 mx-4 sm:mx-2";
+const horizontalEventSizeClasses = "flex flex-col justify-between items-center gap-2  mx-4 sm:mx-2";
+const inputClasses = "w-48 pl-2 border-2 border-blue-500 focus:border-blue-700 focus:outline-none text-blue-500 hover:border-blue-700 font-bold py-2 rounded";
 
 function getColor(p5: p5Types, x: number, y: number) {
     // Map the y position of the dot to a value between 0 and 1
@@ -105,6 +106,8 @@ export default function EllipticalOrbitArt() {
     const [mouseMovedState, setMouseMovedState] = useState(false); // mouse moved
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
+    const [isEffectComplete, setIsEffectComplete] = useState(false);
+
     const p5Ref = useRef<p5Types | null>(null);
     const canvasAngleRef = useRef<number>(0);
     const initPosRef = useRef<number>(0);
@@ -122,8 +125,9 @@ export default function EllipticalOrbitArt() {
 
     const draw = () => {
         if (p5Ref.current !== null) {
+            
             const p5 = p5Ref.current;
-           
+            
             // Set the background color of the canvas
             p5.background(0);
             p5.translate(p5.width / 2, p5.height / 2); // move origin to center
@@ -197,8 +201,13 @@ export default function EllipticalOrbitArt() {
                 setMouseMovedState(false)
             }, consumeTime)
             setTimeoutId(id);
-        }
+        };
     };
+    
+    useEffect(() => {
+        // After the effect logic has run, set the state variable to true
+        setIsEffectComplete(true);
+    }, []); // Empty dependency array to run the effect only once after the initial render
 
     return (
         <main className="flex flex-col min-h-screen items-center p-4 sm:p-18 gap-y-8">
@@ -214,14 +223,21 @@ export default function EllipticalOrbitArt() {
                         This simulation is powered by p5.js, a JavaScript library that makes coding visual and interactive sketches accessible to artists, designers, educators, and beginners. We invite you to tinker with the settings below to see how they affect the celestial dance. Change the size of the main dot, its speed, or the speed of the canvas rotation, and watch as the scene transforms before your eyes. Enjoy the exploration!
                     </p>
                 </div>
-                <div className="group rounded-lg border border-transparent px-5">
-                    <Sketch setup={setup} 
-                        draw={draw} 
-                        mousePressed={(e) => {inputsDisplay(e)}} 
-                        mouseMoved={(e) => {inputsDisplay(e)}} 
-                        keyPressed={(e) => {inputsDisplay(e)}}
-                        windowResized={windowResized}/>
-                </div>
+                {isEffectComplete && (
+                    // if window is not defined, it means we are on the server-side
+                    // and we can't render the canvas
+                    typeof window !== 'undefined' && (
+                        <div id="canvas-container" className="group rounded-lg border border-transparent px-5">
+                            <Sketch setup={setup} 
+                                draw={draw} 
+                                mousePressed={(e) => {inputsDisplay(e)}} 
+                                mouseMoved={(e) => {inputsDisplay(e)}} 
+                                keyPressed={(e) => {inputsDisplay(e)}}
+                                windowResized={windowResized}/>
+                        </div>
+                    )
+
+                )}
             </div>
             <div className={`flex flex-col rounded-lg border border-transparent px-5 py-4 ${mouseMovedState ? 'fade' : 'fade-out'}`}>
                 <div className={horizontalSizeClasses}>

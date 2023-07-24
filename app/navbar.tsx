@@ -11,7 +11,7 @@ const pages = [
     },
     {
         name: "The Undercover",
-        link: "/TheUndercover",
+        link: "/theundercover",
         description: 'the undercover game page',
         metaTitle: 'The undercover',
         metaDescription: 'the undercover on the hsp website',
